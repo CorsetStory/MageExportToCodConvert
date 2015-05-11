@@ -76,8 +76,11 @@ namespace MageExportToCodConvert
 
         private bool ProcessFile(string strInputFilename, string strOutputFilename)
         {
-            String strOutputData;
-            strOutputData = "CURRENCY,COMPANYNAME,ADDRESS1,ADDRESS2,TOWN,POSTCODE,ADDRESS3,COUNTRY,ATTENTION,TELEPHONE,EMAIL,REFERENCE1,WEIGHT\r\n";
+            List<string> strOutputData = new List<string>();
+            string strOutputItem;
+
+            strOutputData.Add("CURRENCY,COMPANYNAME,ADDRESS1,ADDRESS2,TOWN,POSTCODE,ADDRESS3,COUNTRY,ATTENTION,TELEPHONE,EMAIL,REFERENCE1,WEIGHT");
+            
             try
             {
                 if (FileOperations.CheckFileExists(strInputFilename))
@@ -94,7 +97,7 @@ namespace MageExportToCodConvert
                             string[] strInputItem = Regex.Split(strThisLine.Substring(1, strThisLine.Length -2), strPattern);
 
                     
-                            strOutputData += "US Dollar,"
+                            strOutputItem = "US Dollar,"
                                 + strInputItem[20] + ","
                                 + strInputItem[22] + ","
                                 + ","
@@ -106,11 +109,17 @@ namespace MageExportToCodConvert
                                 + strInputItem[39] + ","
                                 + strInputItem[19] + ","
                                 + strInputItem[0] + ","
-                                + strInputItem[17] + "\r\n";
+                                + strInputItem[17];
+
+                            if (!strOutputData.Contains(strOutputItem))
+                            {
+                                strOutputData.Add(strOutputItem);
+                            }
                         }
                         firstline = false;
                     }
-                    FileOperations.WriteFile(strOutputFilename, strOutputData);
+                    string strFinalOutputData = string.Join("\r\n", strOutputData.ToArray());
+                    FileOperations.WriteFile(strOutputFilename, strFinalOutputData, Encoding.UTF8);
 
                     return true;
                 }
