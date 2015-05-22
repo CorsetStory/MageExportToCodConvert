@@ -12,8 +12,8 @@ namespace MageExportToCodConvert
     public static class FileOperations
     {
 
-
-        private static Encoding my_encoding = Encoding.GetEncoding("ISO-8859-1");
+        private static Encoding my_encoding = Encoding.UTF8;
+        //private static Encoding my_encoding = Encoding.GetEncoding("ISO-8859-1");
         /// <summary>
         /// Moves file to arhive and supress errors
         /// </summary>
